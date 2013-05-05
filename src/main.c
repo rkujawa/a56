@@ -41,6 +41,10 @@ extern BOOL list_on;
 BOOL list_on_next = TRUE;
 char *alloc();
 
+void
+summarize(struct psect *);
+
+int
 main(argc,argv)
 int argc;
 char *argv[];
@@ -172,6 +176,7 @@ char *sym;
 
 struct sym *symtab[HASHSIZE];
 
+void
 sym_def(sym, type, seg, i, f)
 char *sym;
 int type;
@@ -390,8 +395,8 @@ SSSSSSSSSSSSSSSSSSSSSSSS  X  FFFF FFFF FFFF 99999 100%  99999 100%  99999
 	printf("\n");
 }
 
-summarize(pp)
-struct psect *pp;
+void
+summarize(struct psect *pp)
 {
 	int used, avail, of;
 

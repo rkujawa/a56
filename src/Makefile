@@ -62,7 +62,7 @@ OBJS = main.o gram.o lex.o toktab.o subs.o getopt.o kparse.o
 DEFINES = $(CCDEFS)
 #DEFINES = -DYYDEBUG -DLDEBUG $(CCDEFS)
 
-CFLAGS = $(DEBUG) $(DEFINES)
+CFLAGS = $(DEBUG) $(DEFINES) -m32
 
 all:	keybld a56 toomf
 
@@ -84,7 +84,7 @@ ksubs.o:	subs.c
 lex.o:	lex.c gram.h
 
 kparse.c:	a56.key keybld
-	keybld < a56.key > kparse.c
+	./keybld < a56.key > kparse.c
 
 gram.c gram.h:	a56.y
 	@echo "[expect 2 shift/reduce conflicts here]"
