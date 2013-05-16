@@ -5,7 +5,7 @@
  *  Written by Quinn C. Jensen
  *  July 1990
  *
- *******************************************************\
+ *******************************************************/
 
 /*
  * Copyright (C) 1990-1994 Quinn C. Jensen
@@ -19,6 +19,9 @@
  * provided "as is" without express or implied warranty.
  *
  */
+#include <unistd.h>
+#include <stdbool.h>
+
 static char *Copyright = "Copyright (C) 1990-1994 Quinn C. Jensen";
 
 /*
@@ -41,13 +44,15 @@ extern BOOL list_on;
 BOOL list_on_next = TRUE;
 char *alloc();
 
-void
-summarize(struct psect *);
+
+void summarize(struct psect *);
+
+void set_psect(struct psect *);
+void psect_summary();
+void reset_psects();
 
 int
-main(argc,argv)
-int argc;
-char *argv[];
+main(int argc, char *argv[])
 {
 	int i;
 	extern char *optarg;
@@ -151,8 +156,7 @@ yywrap()
 }
 
 struct n
-sym_ref(sym)		/* return symbol value or UNDEF if not defined yet */
-char *sym;
+sym_ref(char *sym)	/* return symbol value or UNDEF if not defined yet */
 {
 	struct sym *sp, *find_sym();
 	struct n result;
@@ -177,12 +181,7 @@ char *sym;
 struct sym *symtab[HASHSIZE];
 
 void
-sym_def(sym, type, seg, i, f)
-char *sym;
-int type;
-int seg;
-int i;
-double f;
+sym_def(char *sym, int type, int seg, int i, double f)
 {
 	struct sym *sp, **stop, *find_sym();
 
@@ -291,8 +290,8 @@ int n;
 
 extern char segs[];
 
-gencode(seg, pc, word)
-int seg, pc, word;
+void
+gencode(int seg, int pc, int word)
 {
 	fprintf(obj, "%c %04X %06X\n", segs[seg], pc, word & 0xFFFFFF);
 }
@@ -340,8 +339,7 @@ char *s;
 
 #define ONE 0x4000000
 
-makefrac(s)
-char *s;
+makefrac(char *s)
 {
 	int frac = 0, div = 1;
 	int scale = 1;
@@ -369,6 +367,7 @@ char *s;
 
 struct psect *ptop = NULL, *cur_psect = NULL;
 
+void
 reset_psects()
 {
 	struct psect *pp;
@@ -380,6 +379,7 @@ reset_psects()
 	set_psect(NULL);
 }
 
+void
 psect_summary()
 {
 	printf("\nSummary of psect usage\n\n");
@@ -415,8 +415,8 @@ summarize(struct psect *pp)
 		of);
 }
 
-struct psect *find_psect(name)
-char *name;
+struct psect *
+find_psect(char *name)
 {
 	struct psect *pp;
 
@@ -427,33 +427,30 @@ char *name;
 	return NULL;
 }
 
-set_psect(pp)
-struct psect *pp;
+void
+set_psect(struct psect *pp)
 {
 	cur_psect = pp;
 }
 
-check_psect(seg, pc)
-int seg;
-unsigned int pc;
+bool
+check_psect(int seg, unsigned int pc)
 {
 	if(cur_psect) {
 		if(seg == cur_psect->seg && pc >= cur_psect->bottom && 
 			pc <= cur_psect->top) {
 			cur_psect->pc = pc;
-			return TRUE;
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 	} else {
-		return TRUE;
+		return true;
 	}
 }
 
-struct psect *new_psect(name, seg, bottom, top)
-char *name;
-int seg;
-unsigned int bottom, top;
+struct psect *
+new_psect(char *name, int seg, unsigned int bottom, unsigned int top)
 {
 	struct psect *pp = find_psect(name);
 

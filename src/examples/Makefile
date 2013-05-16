@@ -2,7 +2,7 @@ STUFF = caltone.omf memtest.omf pink.omf sloader.omf test-dac.omf \
 	test-int.omf thru.omf reverb.omf flange.omf chorus.omf sixcomb.omf
 
 M4 = m4
-CPP = /lib/cpp
+CPP = cpp
 
 all:	$(STUFF)
 
@@ -18,6 +18,6 @@ sixcomb.omf:	sixcomb.a56
 
 .a56.omf:	$*.a56
 		$(CPP) -Uicon $*.a56 > tmp.a56
-		a56 -o $*.out tmp.a56 > $*.lis
+		../a56 -o $*.out tmp.a56 > $*.lis
 		rm tmp.a56
-		toomf < $*.out > $*.omf
+		../toomf < $*.out > $*.omf

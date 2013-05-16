@@ -56,8 +56,8 @@ POSTPROCESS = echo
 #DEBUG = -O -Olimit 3000
 DEBUG = -O
 
-SRCS = main.c a56.y lex.c subs.c getopt.c kparse.key
-OBJS = main.o gram.o lex.o toktab.o subs.o getopt.o kparse.o
+SRCS = main.c a56.y lex.c subs.c kparse.key
+OBJS = main.o gram.o lex.o toktab.o subs.o kparse.o
 
 DEFINES = $(CCDEFS)
 #DEFINES = -DYYDEBUG -DLDEBUG $(CCDEFS)

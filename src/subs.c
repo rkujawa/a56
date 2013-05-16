@@ -5,7 +5,7 @@
  *  Written by Quinn C. Jensen
  *  July 1990
  *
- *******************************************************\
+ *******************************************************/
 
 /*
  * Copyright (C) 1990-1994 Quinn C. Jensen
@@ -25,6 +25,9 @@ static char *Copyright = "Copyright (C) 1990-1994 Quinn C. Jensen";
  *  subs.c - Some subroutines for the assembler.
  *
  */
+
+#include <stdlib.h>
+#include <string.h>
 
 #include "a56.h"
 
@@ -68,8 +71,8 @@ char *file;
 	return fp;
 }
 
-fatal(c, a1, a2, a3, a4, a5, a6, a7, a8)
-char *c, *a1, *a2, *a3, *a4, *a5, *a6, *a7, *a8;
+void
+fatal(char *c, char *a1, char *a2, char *a3, char *a4, char *a5, char *a6, char *a7, char *a8)
 {
 	fprintf(stderr, c, a1, a2, a3, a4, a5, a6, a7, a8);
 	exit(1);
@@ -117,13 +120,12 @@ register int stops;
 	return o;
 }
 
-char *alloc(size)
-int size;
+char *
+alloc(int size)
 {
 	char *p = (char *)malloc(size);
-	if(NOT p)
-		fatal("alloc:  insufficient virtual memory to allocate %d bytes\n", 
-			size);
+	if (!p)
+		fprintf(stderr, "alloc:  insufficient virtual memory to allocate %d bytes\n", size);
 	return p;
 }
 
@@ -134,6 +136,7 @@ int size;
 	(c) >= 'A' && (c) <= 'Z' || \
 	(c) >= 'a' && (c) <= 'z')
 
+/*
 strtol(s, p, base)
 register char *s, **p;
 register int base;
@@ -163,3 +166,4 @@ register int base;
 
 	return sign ? -result : result;
 }
+*/

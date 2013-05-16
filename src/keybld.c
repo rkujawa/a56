@@ -10,6 +10,29 @@
  * provided "as is" without express or implied warranty.
  *
  */
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_CHAR 'z'
+
+#define TRANSITIONS (MAX_CHAR + 1)
+
+struct state {
+	int number;
+	char *seen;
+	struct trans {
+		char action;
+		void *arg;
+	} trans[TRANSITIONS];
+	struct state *next;
+} empty_state, *stop = NULL, *scur = NULL, *new_state();
+
+int n_states = 0;
+
+int 	follow(char, char *, struct state *);
+void	dump_machine(void);
+int	add_tok(char *, char *);
+
 static char *Copyright = "Copyright (C) 1990-1994 Quinn C. Jensen";
 
 /*
@@ -17,12 +40,12 @@ static char *Copyright = "Copyright (C) 1990-1994 Quinn C. Jensen";
  *
  */
 
-#include <stdio.h>
 #include "a56.h"
 
 char buf[1024];
 
-main()
+int
+main(void)
 {
 	int line = 0;
 
@@ -43,20 +66,7 @@ main()
 	return 0;
 }
 
-#define MAX_CHAR 'z'
 
-#define TRANSITIONS (MAX_CHAR + 1)
-
-struct state {
-	int number;
-	char *seen;
-	struct trans {
-		char action;
-		void *arg;
-	} trans[TRANSITIONS];
-	struct state *next;
-} empty_state, *stop = NULL, *scur = NULL, *new_state();
-int n_states = 0;
 
 /* actions */
 #define NOMATCH 0	/* argument is nothing */
@@ -69,8 +79,8 @@ struct user_action {
 } *utop = NULL, *ucur = NULL;
 int n_user_actions = 0;
 
-add_tok(tok, actions)
-char *tok, *actions;
+int
+add_tok(char *tok, char *actions)
 {
 	struct state *scur;
 	struct user_action *unew = (struct user_action *)alloc(sizeof *unew);
@@ -92,10 +102,8 @@ char *tok, *actions;
 	return 0;
 }
 
-follow(c, tp, sp)
-char c;
-char *tp;
-struct state *sp;
+int
+follow(char c, char *tp, struct state *sp)
 {
 	struct trans *arcp, *arcup;
 	
@@ -160,7 +168,8 @@ char *tp;
 	return snew;
 }
 
-dump_machine()
+void
+dump_machine(void)
 {
 	struct state *sp;
 	struct user_action *up;

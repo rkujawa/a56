@@ -438,8 +438,8 @@ char line_buf[INLINE];
 char *cur_line = line_buf;		/* points to current line buffer */
 char *clp = NULL;				/* where we're at in cur_line */
 
-lgetc(fp)
-FILE *fp;
+int
+lgetc(FILE *fp)
 {
 	int c;
 

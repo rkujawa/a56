@@ -5,7 +5,7 @@
  *  Written by Quinn C. Jensen
  *  July 1990
  *
- *******************************************************\
+ *******************************************************/
 
 /*
  * Copyright (C) 1990-1994 Quinn C. Jensen
@@ -19,6 +19,10 @@
  * provided "as is" without express or implied warranty.
  *
  */
+
+#include <stdio.h>
+#include <stdlib.h>
+
 static char *Copyright = "Copyright (C) 1990-1994 Quinn C. Jensen";
 
 /*
@@ -31,9 +35,8 @@ static char *Copyright = "Copyright (C) 1990-1994 Quinn C. Jensen";
 
 #define MAX 256
 
-main(argc,argv)
-int argc;
-char *argv[];
+int
+main(int argc, char *argv[])
 {
 	char buf[MAX];
 	int curaddr = 0;
@@ -57,4 +60,6 @@ char *argv[];
 		}
 	}
 	printf("\n_END %04X\n", startaddr);
+
+	return(EXIT_SUCCESS);
 }
