@@ -21,6 +21,7 @@
  */
 #include <unistd.h>
 #include <stdbool.h>
+#include <string.h>
 
 static char *Copyright = "Copyright (C) 1990-1994 Quinn C. Jensen";
 
@@ -45,11 +46,14 @@ BOOL list_on_next = TRUE;
 char *alloc();
 
 
+void dump_symtab();
 void summarize(struct psect *);
 
 void set_psect(struct psect *);
 void psect_summary();
 void reset_psects();
+
+void include(char *file);
 
 int
 main(int argc, char *argv[])
@@ -107,8 +111,8 @@ struct inc inc[MAX_NEST];
 int inc_p = 0;
 FILE *yyin;
 
-include(file)
-char *file;
+void
+include(char *file)
 {
 	FILE *fp = open_read(file);
 
@@ -205,7 +209,7 @@ sym_def(char *sym, int type, int seg, int i, double f)
 			sp->n.val.f = f;
 	} else {
 		sp = find_sym(sym);
-		if(NOT sp)
+		if(!sp)
 			fatal("internal error 304\n");
 		if(sp->n.type != type ||
 			type == INT && sp->n.val.i != (i & 0xFFFFFF) ||
@@ -214,8 +218,8 @@ sym_def(char *sym, int type, int seg, int i, double f)
 	}		
 }
 
-struct sym *find_sym(sym)
-char *sym;
+struct sym *
+find_sym(char *sym)
 {
 	struct sym *sp, **stop;
 
@@ -228,6 +232,8 @@ char *sym;
 }
 
 extern char segs[];
+
+void
 dump_symtab()
 {
 	struct sym *sp, **stop;
@@ -339,6 +345,7 @@ char *s;
 
 #define ONE 0x4000000
 
+int
 makefrac(char *s)
 {
 	int frac = 0, div = 1;
