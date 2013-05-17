@@ -90,5 +90,3 @@ FILE *open_read(), *open_write(), *open_append();
 	/* after a call to fgets(), remove the newline character */
 #define rmcr(s) {if (s[strlen(s)-1] == '\n') s[strlen(s)-1] = '\0';};
 
-#define ASSERT(expr, str) \
-		if(expr) fprintf(stderr, "ASSERT: %s: line %d: %s\n", __FILE__, __LINE__, str);

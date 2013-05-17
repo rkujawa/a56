@@ -35,8 +35,8 @@ static char *Copyright = "Copyright (C) 1990-1994 Quinn C. Jensen";
 
 char *alloc();
 
-FILE *open_read(file)
-char *file;
+FILE *
+open_read(char *file)
 {
 	FILE *fp;
 
@@ -49,8 +49,8 @@ char *file;
 	return fp;
 }
 
-FILE *open_write(file)
-char *file;
+FILE *
+open_write(char *file)
 {
 	FILE *fp;
 	if ((fp = fopen(file, "w")) == NULL) {
@@ -60,8 +60,8 @@ char *file;
 	return fp;
 }
 
-FILE *open_append(file)
-char *file;
+FILE *
+open_append(char *file)
 {
 	FILE *fp;
 	if ((fp = fopen(file, "a")) == NULL) {
@@ -136,34 +136,3 @@ alloc(int size)
 	(c) >= 'A' && (c) <= 'Z' || \
 	(c) >= 'a' && (c) <= 'z')
 
-/*
-strtol(s, p, base)
-register char *s, **p;
-register int base;
-{
-	register long result = 0;
-	register int sign = 0;
-
-	while(*s == ' ' || *s == '\t')
-		s++;
-
-	if(*s == '-') {
-		s++;
-		sign++;
-	}
-
-	while(valid(*s)) {
-		register int dig = ascii2n(*s);
-		if(dig >= base)
-			break;
-		result *= base;
-		result += dig;
- 		s++;
-	}
-
-	if(p)
-		*p = s;
-
-	return sign ? -result : result;
-}
-*/

@@ -144,7 +144,8 @@ include(char *file)
 #endif
 }
 
-yywrap()
+int
+yywrap(void)
 {
 	fclose(inc[inc_p].fp);
 	inc_p--;

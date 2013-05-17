@@ -52,7 +52,7 @@ main(int argc, char *argv[])
 			if(seg == 'I' || seg == 'F') break;
 			if(seg != curseg || curaddr != addr) {
 				printf("\n_DATA %c %04X\n", curseg = seg, curaddr = addr);
-			}   
+			}
 			if(startaddr == -1 && seg == 'P')
 				startaddr = addr;
 			printf("%06X ", data & 0xFFFFFF);
@@ -61,5 +61,5 @@ main(int argc, char *argv[])
 	}
 	printf("\n_END %04X\n", startaddr);
 
-	return(EXIT_SUCCESS);
+	return EXIT_SUCCESS;
 }
